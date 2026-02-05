@@ -1,4 +1,4 @@
-package fr.spironet.geoserver.check
+package com.camptocamp.geoserver.check
 
 import groovy.time.TimeCategory
 import groovy.xml.XmlSlurper
@@ -11,7 +11,15 @@ import org.geotools.ows.wms.WebMapServer
 import org.geotools.ows.wms.response.GetMapResponse
 
 import javax.imageio.ImageIO
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLSession
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 import java.nio.charset.Charset
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 
 class EntryPoint {
 
@@ -44,6 +52,31 @@ class EntryPoint {
     }
 
     static void main(String[] args) {
+        // deactivate SSL/TLS certificate check
+        TrustManager[] trustAllCerts = new TrustManager[] {
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                    }
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                    }
+                }
+        }
+        SSLContext sc = SSLContext.getInstance("SSL")
+        sc.init(null, trustAllCerts, new SecureRandom())
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory())
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true
+            }
+        }
+        // end
+
+        // Install the all-trusting host verifier
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
         if (args.size() == 0) {
             println "Usage: java -jar ... <wms url to test>"
             System.exit(1)
@@ -72,9 +105,13 @@ class EntryPoint {
         def nberrors = 0
         layers.each {
             def name = it.getName()
+            def ns = name
+            try {
+                ns = it.name.split(":")[0]
+            } catch (Exception _) {}
             def error = null
             def tc = [
-                    classname: name,
+                    classname: ns,
                     name: name
             ]
             def tcStart = new Date()

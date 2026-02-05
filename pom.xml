@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>fr.spironet</groupId>
-  <artifactId>geoserver-check</artifactId>
+  <groupId>com.camptocamp</groupId>
+  <artifactId>wms-layer-tester</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>geoserver-check</name>
+  <name>wms-layer-tester</name>
   <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
   </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.groovy</groupId>
       <artifactId>groovy-all</artifactId>
-      <version>4.0.9</version>
+      <version>5.0.4</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-wms</artifactId>
-      <version>29.0</version>
+      <version>34.2</version>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-http</artifactId>
-      <version>29.0</version>
+      <version>34.2</version>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-http-commons</artifactId>
-      <version>29.0</version>
+      <version>34.2</version>
     </dependency>
-
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.13.1</version>
+        <version>4.3.0</version>
         <executions>
           <execution>
             <goals>
@@ -58,17 +57,17 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.8.0</version>
         <configuration>
           <archive>
             <manifest>
-              <mainClass>fr.spironet.geoserver.check.EntryPoint</mainClass>
+              <mainClass>com.camptocamp.geoserver.check.EntryPoint</mainClass>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
             </manifest>
             <manifestEntries>
-              <Specification-Vendor>fr.spironet</Specification-Vendor>
-              <Implementation-Vendor>fr.spironet</Implementation-Vendor>
+              <Specification-Vendor>com.camptocamp</Specification-Vendor>
+              <Implementation-Vendor>com.camptocamp</Implementation-Vendor>
             </manifestEntries>
           </archive>
           <descriptorRefs>
@@ -90,7 +89,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.0.0</version>
         <configuration>
-          <mainClass>fr.spironet.geoserver.check.EntryPoint</mainClass>
+          <mainClass>com.camptocamp.geoserver.check.EntryPoint</mainClass>
         </configuration>
       </plugin>
     </plugins>

@@ -1,4 +1,4 @@
-package fr.spironet.geoserver.check
+package com.camptocamp.geoserver.check
 
 import groovy.xml.MarkupBuilder
 
@@ -19,10 +19,10 @@ class JunitXmlReportGenerator {
      * ```
      * [ id: "id", name: "name", tests: 12, errors:1, time: 1.00 ]
      * ```
-     * @param tc a arrany describing the testcases, having the following form:
+     * @param tc an array describing the testcases, having the following form:
      * ```
      * [
-     *   [ classname: "Class.A", name: "aaa", time: 0.1, error: <...> ],
+     *   [ classname: "Class", name: "aaa", time: 0.1, error: <...> ],
      * ]
      * ```
      * the error can either be null if the testcase succeeded, or containing a map having the following form
